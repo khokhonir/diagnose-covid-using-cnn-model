@@ -8,11 +8,13 @@ Employ Python based convolutional neural network (CNN) models for diagnosing COV
 - **CNN Models Used**
   VGG16, VGG19 and Xception
 
-- **Model Architecture**
+- **CNN Model Architecture**
   
   ![img.png](img.png)
 
-- **Model Performance**
+- **CNN Model Performance**
+
+  ![img_3.png](img_3.png)
 
 ### Dataset
 - Dataset Link - [SARS-COV2-Ct-Scan Dataset](https://www.kaggle.com/plameneduardo/sarscov2-ctscan-dataset)
