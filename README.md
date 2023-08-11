@@ -9,6 +9,7 @@ Employ Python based convolutional neural network (CNN) models for diagnosing COV
   VGG16, VGG19 and Xception
 
 - **Model Architecture**
+  
   ![img.png](img.png)
 
 - **Model Performance**
