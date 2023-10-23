@@ -5,7 +5,7 @@ This code contains Python based convolutional neural network (CNN) models for di
 
 - **CNN Model Training Process**
   
-  ![img_1.png](img_1.png)
+  ![img_1.png]
 
 - **CNN Model Performance**
  
