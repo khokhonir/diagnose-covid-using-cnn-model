@@ -1,7 +1,5 @@
 # COVID-19 CNN Python Application
-
-## About
-This code contains Python based convolutional neural network (CNN) models for diagnosing COVID-19 using chest X-ray images.
+Ths code contains Python based convolutional neural network (CNN) models for diagnosing COVID-19 using chest X-ray images.
 
 - **CNN Model Training Process**
 
