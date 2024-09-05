@@ -8,6 +8,10 @@ Ths code contains Python based convolutional neural network (CNN) models for dia
 - **CNN Model Performance**
 
 ![image_2.png](image_2.png)
+
+- **Prediction UI** 
+
+![image_3.JPG](image_3.JPG)
  
 ### Dataset
 - Dataset Link - [SARS-COV2-Ct-Scan Dataset](https://www.kaggle.com/plameneduardo/sarscov2-ctscan-dataset)
