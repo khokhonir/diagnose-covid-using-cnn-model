@@ -1,65 +1,48 @@
 import streamlit as st
-from PIL import Image
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
 import numpy as np
-import tensorflow as tf
-from tensorflow.keras.applications import VGG19
-from tensorflow.keras.layers import Dense, Flatten
-from tensorflow.keras.models import Model
-from tensorflow.keras.applications.vgg19 import preprocess_input
-
-from tensorflow.keras.applications import VGG19
-from tensorflow.keras.layers import Input
 
 # Define class labels
 class_names = ['COVID', 'NonCOVID']
 
-# Rebuild the model structure without using `batch_shape`
-def build_model():
+# Load the complete model
+model = load_model(r'C:\dev\diagnose-covid-using-cnn-model\covidapi\models\pretrained_model.h5')
 
-
-# Set up VGG19 with locally downloaded weights
-    base_model = VGG19(weights='models/vgg19_weights.h5', include_top=False, input_shape=(224, 224, 3))
-
-#base_model = VGG19(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
-    x = Flatten()(base_model.output)
-    x = Dense(256, activation='relu')(x)
-    predictions = Dense(2, activation='softmax')(x)  # Assuming binary classification
-    model = Model(inputs=base_model.input, outputs=predictions)
-    return model
-
-model = build_model()
-
-# Load weights only, bypassing potential issues with `batch_shape`
-model.load_weights(r'C:\dev\diagnose-covid-using-cnn-model\covidapi\models\vgg19_trained_model.h5')
-
-# Preprocess uploaded image
+# Preprocess the image
 def preprocess_image(image):
-    img = Image.open(image).convert('RGB')
-    img = img.resize((224, 224))
-    img_array = np.array(img) / 255.0
-    img_array = img_array.reshape((1, 224, 224, 3))
-    img_array = preprocess_input(img_array)
-    return img_array
+    image = image.resize((224, 224))  # Resize to match model input size
+    image_array = img_to_array(image)
+    image_array = np.expand_dims(image_array, axis=0)
+    image_array /= 255.0  # Normalize pixel values
+    return image_array
 
+# Streamlit App
+def main():
+    st.title("COVID-19 Prediction from CT Scan")
+    st.write("Upload a CT scan image to predict whether it indicates COVID-19 or not.")
 
-# Set up the Streamlit app
-st.title('COVID-19 Prediction Web Application')
+    # Image upload
+    uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
 
-# Upload the image
-uploaded_image = st.file_uploader("Upload a CT-scan image...", type=["jpg", "jpeg", "png"])
+    if uploaded_file is not None:
+        # Display uploaded image
+        st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
 
-if uploaded_image is not None:
-    image = Image.open(uploaded_image)
-    col1, col2 = st.columns(2)
+        # Load and preprocess the image
+        image = load_img(uploaded_file)
+        preprocessed_image = preprocess_image(image)
 
-    with col1:
-        resized_img = image.resize((100, 100))
-        st.image(resized_img)
+        # Predict using the model
+        st.write("Processing image...")
+        prediction = model.predict(preprocessed_image)
+        class_label = class_names[np.argmax(prediction)]
+        confidence = np.max(prediction)
 
-    with col2:
-        if st.button('Classify'):
-            img_array = preprocess_image(uploaded_image)
-            result = model.predict(img_array)
-            predicted_class = np.argmax(result)
-            prediction = class_names[predicted_class]
-            st.success(f'Prediction: {prediction}')
+        # Display prediction result
+        st.write(f"Prediction: **{class_label}**")
+        st.write(f"Confidence: **{confidence:.2f}**")
+
+# Run the app
+if __name__ == "__main__":
+    main()
