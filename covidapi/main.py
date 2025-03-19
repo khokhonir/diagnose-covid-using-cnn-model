@@ -11,10 +11,10 @@ model = load_model(r'C:\dev\diagnose-covid-using-cnn-model\covidapi\models\pretr
 
 # Preprocess the image
 def preprocess_image(image):
-    image = image.resize((224, 224))  # Resize to match model input size
+    image = image.resize((224, 224))  #Resize to match model input size
     image_array = img_to_array(image)
     image_array = np.expand_dims(image_array, axis=0)
-    image_array /= 255.0  # Normalize pixel values
+    image_array /= 255.0  #Normalize pixel values
     return image_array
 
 # Streamlit App
