@@ -7,7 +7,7 @@ Ths code contains Python based convolutional neural network (CNN) models for dia
 
 - **CNN Model Performance**
 
-![image_2.png](image_2.png)
+![image_2.jpg](image_2.jpg)
 
 - **Prediction UI** 
 
